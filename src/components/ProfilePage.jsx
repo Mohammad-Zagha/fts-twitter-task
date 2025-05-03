@@ -1,16 +1,75 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { Button } from "./common/Button";
-import { MdOutlineNotificationAdd } from "react-icons/md";
-import { IoIosMore } from "react-icons/io";
+import { MdOutlineNotificationAdd, MdVerified } from "react-icons/md";
+import { IoIosMore, IoMdPerson } from "react-icons/io";
 import { PiLinkSimpleLight } from "react-icons/pi";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt, FaRetweet } from "react-icons/fa";
+
+import Post from "./common/Post";
 
 const ProfilePage = () => {
   return (
     <div className="bg-black text-white col-span-6 h-full border-r-2 border-[#191919]">
       <NavBar />
       <ProfileInfo />
+      <ProfileTapBar />
+      <Post
+        isRepost={true}
+        profileImage="https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL3BsYXlcLzBiN2Y0ZTliLWY1OWMtNDAyNC05ZjA2LWIzZGMxMjg1MGFiNy0xOTIwLTEwODAuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4Mjh9fX0="
+        displayName="danabrampv.bsky.social"
+        username="dan_abramov"
+        date="May 29"
+        content={
+          <>
+            Happy 10th birthday to&nbsp;
+            <span className="text-blue-400 text-sm cursor-pointer">@react</span>
+          </>
+        }
+        comments="49"
+        retweets="675"
+        likes="675"
+        views="1.1M"
+      />
+      <div className="px-3 py-1 space-y-2">
+        <span className="text-lg font-bold">Who to follow</span>
+        <FollowSuggestion
+          icon={<IoMdPerson size={14} className="text-[#6F6F6F]" />}
+          profileImage="./assets/freeCodeCamp.jpg"
+          followText="Node.js and 9 other follow"
+          name="freeCodeCamp.org"
+          username="freecodecamp"
+          verified={true}
+          description={
+            "We're a community of millions of people who are building new skills and getting new jobs together. A 501(c)(3) public charity. Tweets by @abbeyrenn"
+          }
+        />
+        <FollowSuggestion
+          icon={<IoMdPerson size={14} className="text-[#6F6F6F]" />}
+          profileImage="https://pbs.twimg.com/profile_images/1648471227416346625/v84A9gXA_400x400.png"
+          followText="Node.js and 5 other follow"
+          name="TypeScript"
+          username="typescript"
+          verified={true}
+          description={
+            "TypeScript is a language for application-scale JavaScript development. It's a typed superset of JavaScript that compiles to plain JavaScript."
+          }
+        />
+        <FollowSuggestion
+          icon={<IoMdPerson size={14} className="text-[#6F6F6F]" />}
+          profileImage="https://www.drupal.org/files/project-images/screenshot_361.png"
+          followText="Yazeed Obaid and 3 other follow"
+          name="Tailwind CSS"
+          username="tailwindcss"
+          verified={true}
+          description={
+            "The utility-first CSS framework. Rapidly build modern websites, without ever leaving your HTML."
+          }
+        />
+      </div>
+      <a href="#" className="text-blue-400 text-sm cursor-pointer ms-2">
+        Show More
+      </a>
     </div>
   );
 };
@@ -106,4 +165,83 @@ function ProfileInfo() {
     </>
   );
 }
+function ProfileTapBar() {
+  const [activeTab, setActiveTab] = useState("posts");
+
+  const tabs = [
+    { id: "posts", label: "Posts" },
+    { id: "replies", label: "Replies" },
+    { id: "media", label: "Media" },
+    { id: "likes", label: "Likes" },
+  ];
+  return (
+    <div className="flex justify-between border-b border-[#191919]">
+      {tabs.map((tab) => (
+        <div
+          key={tab.id}
+          className="flex flex-col items-center flex-1 cursor-pointer"
+          onClick={() => setActiveTab(tab.id)}
+        >
+          <div className="py-4 px-2 relative">
+            <span
+              className={`font-semibold text-sm ${
+                activeTab === tab.id ? "text-white" : "text-gray-500"
+              }`}
+            >
+              {tab.label}
+            </span>
+            {activeTab === tab.id && (
+              <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-500 rounded-t"></div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+const FollowSuggestion = ({
+  icon,
+  profileImage,
+  followText,
+  name,
+  username,
+  verified,
+  description,
+}) => {
+  return (
+    <div className="flex p-1 px-2 gap-2">
+      {/* Icon + Image */}
+      <div className="flex flex-col items-end gap-1 w-[50px]">
+        {icon}
+        <img
+          className="size-9 rounded-full ring-3 ring-black object-cover"
+          src={profileImage}
+          alt="profile"
+        />
+      </div>
+
+      {/* Right Section */}
+      <div className="flex flex-col w-full gap-0.5">
+        <span className="text-[#6F6F6F] font-semibold text-xs">
+          {followText}
+        </span>
+
+        <div className="flex justify-between items-center">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1">
+              <span className="font-semibold text-xs">{name}</span>
+              {verified && (
+                <MdVerified size={14} className="text-[#51A2FF] mt-1" />
+              )}
+            </div>
+            <span className="text-[#6F6F6F] text-xs">@{username}</span>
+          </div>
+          <Button variant="default">Follow</Button>
+        </div>
+
+        <p className="text-xs font-semibold">{description}</p>
+      </div>
+    </div>
+  );
+};
 export default ProfilePage;
