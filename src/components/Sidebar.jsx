@@ -8,7 +8,7 @@ import { MdPeopleOutline } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
 const Sidebar = () => {
   return (
-    <div className="col-span-2 h-full flex justify-between flex-col bg-black">
+    <div className="col-span-2 h-full flex justify-between flex-col bg-black border-r-2 border-[#191919]">
       <div className="flex flex-col gap-6">
         <img className="size-12" src="./assets/x_logo.jpg" />
         <SideBarItem icon={<TbHome2 size={26} />} text="Home" />
